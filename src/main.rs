@@ -1,3 +1,5 @@
+mod events;
+
 enum School {
     HarveyMudd,
     Pomona,
@@ -22,31 +24,30 @@ impl Player {
 
 struct Item {
     name: String,
-    timeMult: f32, // for skateboard
-    hungerEffect: u8, // e.g. snack
-    healthEffect: u8, // e.g. someone poisoined ur snack :(
+    time_mult: f32, // for skateboard
+    hunger_effect: u8, // e.g. snack
+    health_effect: u8, // e.g. someone poisoined ur snack :(
 }
 
 impl Default for Item {
     fn default() -> Item {
         Item {
-            name: "UntitledItem",
-            timeMult: 1, // for skateboard
-            hungerEffect: 0, // e.g. snack
-            healthEffect: 0, // e.g. someone poisoined ur snack :(
+            name: "UntitledItem".into(),
+            time_mult: 1.0, // for skateboard
+            hunger_effect: 0, // e.g. snack
+            health_effect: 0, // e.g. someone poisoined ur snack :(
         }
     }
 }
 
 struct Room {
     school: School,
-    megaEvent: Option<Event>,
-    events: Option<Vec<Event>> // Max 1-3
+    megaEvent: Option<events::Event>,
+    events: Option<Vec<events::Event>> // Max 1-3
 }
 
-
 fn main() {
-    let mut Cable = Player{name: "Caleb".into(), hunger: 100, time: 100, health:100, item: "Skateboard".into()};
+    let mut Cable = Player{name: "Caleb".into(), hunger: 100, time: 100, health:100, item: Item { ..Default::default()} };
     let testRoom: Room = Room{school: School::HarveyMudd, megaEvent: None, events: None};
 }
 

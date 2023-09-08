@@ -30,11 +30,26 @@ struct Room {
 
 struct Event {
     name: String,
-    description: string,
+    message: String,
+    events: Option<Vec<Event>>, // events can lead to other events
     chance: u8, // make this a float, or choose arbitary max
     time: u8,
     health: u8,
     hunger: u8, 
+}
+
+// implements default values for each event -> let p = Event { name: "Lunch", ..Default::default() };
+impl Default for Event {
+    fn default() -> Event {
+        Event {
+            name: "UntitledEvent",
+            message: "EmptyMessage",
+            chance: 1, // lets set a default attributes
+            time: 5,
+            health: 0,
+            hunger: 0,
+        }
+    }
 }
 
 

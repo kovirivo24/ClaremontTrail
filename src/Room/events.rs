@@ -25,6 +25,31 @@ pub mod events {
             }
         }
     }
+    impl events {
+        //Implementing Getters, I think it'll make lyfe easier down the line
+        pub fn getName(self) -> String {
+            (self.name)
+        }
+
+        pub fn getMessage(self) -> String {
+            (self.message)
+        }
+
+        pub fn getMegaEvent(self) {}
+
+        pub fn getEvents(self) {}
+
+        pub fn getChance(self) -> u8 {
+            (self.chance)
+        }
+
+        pub fn getHealth(self) -> u8 {
+            (self.health)
+        }
+        pub fn getHunger(self) -> u8 {
+            (self.hunger)
+        }
+    }
 
     // going to have to restructure a lot of this
     pub fn createevents() -> Vec<events> {

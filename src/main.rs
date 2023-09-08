@@ -9,9 +9,9 @@ enum School {
 struct Player {
     name: String,
     hunger: u8, // Biggest Number in a u8 is 255
-    time: u8, // Maybe make this a float , look at later
+    time: u8, // Maybe make this a float , look at later -agreed Kovit
     health: u8,
-    item: String,
+    item: Item,
 }
 
 impl Player {
@@ -20,6 +20,23 @@ impl Player {
     }
 }
 
+struct Item {
+    name: String,
+    timeMult: f32, // for skateboard
+    hungerEffect: u8, // e.g. snack
+    healthEffect: u8, // e.g. someone poisoined ur snack :(
+}
+
+impl Default for Item {
+    fn default() -> Item {
+        Item {
+            name: "UntitledItem",
+            timeMult: 1, // for skateboard
+            hungerEffect: 0, // e.g. snack
+            healthEffect: 0, // e.g. someone poisoined ur snack :(
+        }
+    }
+}
 
 struct Room {
     school: School,
@@ -31,7 +48,8 @@ struct Room {
 struct Event {
     name: String,
     message: String,
-    events: Option<Vec<Event>>, // events can lead to other events
+    megaevent: Bool, 
+    events: Option<Vec<Event>>, // events can lead to other events, 
     chance: u8, // make this a float, or choose arbitary max
     time: u8,
     health: u8,
@@ -44,6 +62,8 @@ impl Default for Event {
         Event {
             name: "UntitledEvent",
             message: "EmptyMessage",
+            megaevent: False,
+            events: None, //set to walk?
             chance: 1, // lets set a default attributes
             time: 5,
             health: 0,

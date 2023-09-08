@@ -29,7 +29,12 @@ struct Room {
 
 
 struct Event {
-
+    name: String,
+    description: string,
+    chance: u8, // make this a float, or choose arbitary max
+    time: u8,
+    health: u8,
+    hunger: u8, 
 }
 
 

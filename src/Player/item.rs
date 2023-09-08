@@ -31,7 +31,7 @@ pub mod item {
         }
 
         pub fn snack() -> item {
-            // let number: usize = thread_rng().gen_range(0..10);
+            // let number: usize = thread_rng().gen_range(0..10); -- this is for rng but it wasnt workign at the time of me writing this lmao
             let number = 2;
             let healthEffect: i8;
             //Leaving it up to RNG if it's experied or not

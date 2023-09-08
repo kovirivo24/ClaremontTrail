@@ -45,35 +45,6 @@ struct Room {
 }
 
 
-struct Event {
-    name: String,
-    message: String,
-    megaevent: Bool, 
-    events: Option<Vec<Event>>, // events can lead to other events, 
-    chance: u8, // make this a float, or choose arbitary max
-    time: u8,
-    health: u8,
-    hunger: u8, 
-}
-
-// implements default values for each event -> let p = Event { name: "Lunch", ..Default::default() };
-impl Default for Event {
-    fn default() -> Event {
-        Event {
-            name: "UntitledEvent",
-            message: "EmptyMessage",
-            megaevent: False,
-            events: None, //set to walk?
-            chance: 1, // lets set a default attributes
-            time: 5,
-            health: 0,
-            hunger: 0,
-        }
-    }
-}
-
-
-
 fn main() {
     let mut Cable = Player{name: "Caleb".into(), hunger: 100, time: 100, health:100, item: "Skateboard".into()};
     let testRoom: Room = Room{school: School::HarveyMudd, megaEvent: None, events: None};

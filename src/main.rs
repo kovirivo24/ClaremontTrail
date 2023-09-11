@@ -16,6 +16,13 @@ pub enum School {
     Cmc,
 }
 
+//Helps keep track of global variables 
+struct GameState {
+    currentSchool: School,
+    schoolRoom: u8,
+    intro: bool,
+}
+
 fn main() {
     let skateboard: item = item::skateboard(); //Created a skateboard item
     let mut Cable = Player { // Player Object
@@ -28,4 +35,12 @@ fn main() {
 
     let mut testRoom: Room = Room::HarveyMudd(); // Created a room object
     testRoom.display(); // This should print running in the console upon running, dont mind the 16 warnings LMAO
+
+
+    let mut theGame: GameState = GameState { currentSchool: (School::HarveyMudd), schoolRoom: (0), intro: (true) };
+    use std::io;
+    use std::io::Write;
+
+
+
 }

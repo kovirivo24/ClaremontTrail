@@ -1,8 +1,10 @@
-mod events;
+pub mod events;
 
 pub mod Room {
+
     use super::events;
 
+    #[derive(Clone)]
     pub enum School {
         HarveyMudd,
         Pomona,
@@ -11,32 +13,57 @@ pub mod Room {
         Cmc,
     }
 
+    #[derive(Clone)]
     pub struct Room {
-        school: School,
-        megaEvent: Option<events::events::events>,
-        roomEvents: Option<Vec<events::events::events>>, // Max 1-3
+        pub school: School,
+        pub megaEvent: events::events::events,
     }
 
     impl Room {
-        pub fn StartingRoom() -> Room{
+        //So what I was imaging was that when we create the rooms, the events are automatically created and attatched to those rooms
+        pub fn StartingRoom() -> Room {
             Room {
                 school: (School::HarveyMudd),
-                megaEvent: (None),
-                roomEvents: (None),
+                megaEvent: (events::events::events::StarterEvent()),
             }
         }
 
-        //The plan is to hopefully initialize a certain school with specific events that are generated when it's created.  i think we will have to tweek this a bit for the our frequency idea ??
-        pub fn HarveyMudd() -> Room {
-            Room {
-                school: (School::HarveyMudd),
-                megaEvent: (None),
-                roomEvents: (Some(events::events::createevents())),
-            }
-        }
-        //This function is just for testing and displaying an event name that the room has
-        pub fn display(self) {
-            println!("{}", self.roomEvents.unwrap()[0].getName());
-        }
+        // pub fn HarveyMudd() -> Room {
+        //     Room {
+        //         school: (School::HarveyMudd),
+        //         megaEvent: (None),
+        //         // roomEvents: (Some(events::events::createevents())),
+        //     }
+        // }
+
+        // pub fn Pomona() -> Room {
+        //     Room {
+        //         school: (School::Pomona),
+        //         megaEvent: (None),
+        //         // roomEvents: (Some(events::events::createevents())),
+        //     }
+        // }
+
+        // pub fn Scripps() -> Room {
+        //     Room {
+        //         school: (School::Scripps),
+        //         megaEvent: (None),
+        //         // roomEvents: (Some(events::events::createevents())),
+        //     }
+        // }
+
+        // pub fn Pitzer() -> Room {
+        //     Room {
+        //         school: (School::Pitzer),
+        //         megaEvent: (None),
+        //     }
+        // }
+
+        // pub fn Cmc() -> Room {
+        //     Room {
+        //         school: (School::Cmc),
+        //         megaEvent: (None),
+        //     }
+        // }
     }
 }

@@ -10,35 +10,40 @@
     use crate::item::item;
 
 
+    #[derive(Clone)]
     pub struct Player {
         pub name: String,
-        pub hunger: u8, // set to 100
-        pub time: u8,   // max 100, decrement, cannot increase
-        pub health: u8, // set to 100
-        pub item: item,
+        pub hunger: i8, // Biggest Number in a u8 is 255
+        pub time: i8,   // Maybe make this a float , look at later -agreed Kovit
+        pub health: i8,
+        pub item: Option<item>,
     }
 
+    impl Default for Player {
+        fn default() -> Self {
+            Player {
+                name: ("".into()),
+                hunger: (100),
+                time: (100),
+                health: (100),
+                item: (None),
+            }
+        }
+    }
     impl Player {
         pub fn test(&mut self) {
             println!("{}", self.hunger)
         }
 
         //Idk what to fuckin call this variable tbh
-        pub fn updateHealth(&mut self, incrementer: u8) {
+        pub fn updateHealth(&mut self, incrementer: i8) {
             self.health -= incrementer;
         }
-        pub fn updateHunger(&mut self, incrementer: u8) {
+        pub fn updateHunger(&mut self, incrementer: i8) {
             self.hunger -= incrementer;
         }
-        pub fn updateTime(&mut self, incrementer: u8) {
+        pub fn updateTime(&mut self, incrementer: i8) {
             self.time -= incrementer;
-        }
-
-        pub fn printStats(self) {
-            println!(
-                "{} has {}health,{} hunger, and {} hours remaining",
-                self.name, self.health, self.hunger, self.time,
-            );
         }
     }
 // }

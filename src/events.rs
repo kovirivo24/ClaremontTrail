@@ -90,6 +90,10 @@
             (self.chance)
         }
 
+        pub fn getTime(&self) -> i8 {
+            (self.time)
+        }
+
         pub fn getHealth(&self) -> i8 {
             (self.health)
         }

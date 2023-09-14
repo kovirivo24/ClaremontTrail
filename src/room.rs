@@ -5,6 +5,7 @@ use std::ops::Deref;
 // pub mod Room {
 use crate::events;
 
+    #[derive(Clone)]
     pub enum School {
         HarveyMudd,
         Pomona,
@@ -13,6 +14,7 @@ use crate::events;
         Cmc,
     }
 
+    #[derive(Clone)]
     pub struct Room {
         school: School,
         megaEvent: Option<Vec<events::events>>,
@@ -20,37 +22,33 @@ use crate::events;
     }
 
     impl Room {
-        pub fn StartingRoom() -> Room{
+        //So what I was imaging was that when we create the rooms, the events are automatically created and attatched to those rooms
+        pub fn StartingRoom() -> Room {
             Room {
                 school: (School::HarveyMudd),
-                megaEvent: (None),
-                // roomEvents: (None), 
+                megaEvent: Some(vec![events::events::StarterEvent()]),
             }
         }
+
+        // pub fn HarveyMudd() -> Room {
+        //     Room {
+        //         school: (School::HarveyMudd),
+        //         megaEvent: (None),
+        //        //  // roomEvents: (Some(events::events::createevents())), 
+        //     }
+        // }
 
         //The plan is to hopefully initialize a certain school with specific events that are generated when it's created.  i think we will have to tweek this a bit for the our frequency idea ??
         pub fn HarveyMudd() -> Room {
             Room {
                 school: (School::HarveyMudd),
                 megaEvent: (None),
-                // roomEvents: (Some(events::createevents())),
-            }
-        }
-
-        pub fn addMegaEvent(&mut self, mut event: Vec<events::events>) {
-            let mut curEvent = self.megaEvent.clone();
-            if curEvent.is_none() {
-                curEvent = Some(event.to_vec());
-                self.megaEvent = curEvent
-            } else {
-                let mut eventlist = curEvent.unwrap(); // just dont worry about trhis its 1 am and im trying to make it work
-                eventlist.append(&mut event);
-                self.megaEvent = Some(eventlist)
+                // roomEvents: (Some(events::events::createevents())),
             }
         }
         //This function is just for testing and displaying an event name that the room has
         pub fn display(self) {
-            println!("TEST NAME{}", self.megaEvent.unwrap()[1].clone().getName());
+            // println!("{}", self.roomEvents.unwrap()[0].getName());
         }
     }
 // }

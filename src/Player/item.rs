@@ -2,6 +2,7 @@
 // use rand::{thread_rng, Rng};
 
 pub mod item {
+    #[derive(Clone)]
     pub struct item {
         pub name: String,
         pub time_mult: f32,    // for skateboard

@@ -82,13 +82,13 @@ fn main() {
     println!(
         "Your name is {} and you have a {}",
         player.name,
-        player.item.unwrap().getName()
+        player.item.unwrap().name
     );
 
     let schools = vec![Room::StartingRoom(), Room::Scripps()]; // This is going to be the vector that holds all the rooms
     let e = events::StarterEvent(); //Testing variables lol
     e.printEvents();
-    
+
     let mut schoolCounter = 0;
     //This is the loop that will go through all the schools
     while schoolCounter < schools.len() {
@@ -98,5 +98,8 @@ fn main() {
             "Health: {}, Hunger: {}, Time: {}",
             player.health, player.hunger, player.time
         );
+        println!("-------------");
+
+        schoolCounter += 1;
     }
 }

@@ -7,14 +7,26 @@ pub mod item;
 
 pub mod player {
 
+    #[derive(Clone)]
     pub struct Player {
         pub name: String,
         pub hunger: u8, // Biggest Number in a u8 is 255
         pub time: u8,   // Maybe make this a float , look at later -agreed Kovit
         pub health: u8,
-        pub item: crate::item,
+        pub item: Option<crate::item>,
     }
 
+    impl Default for Player {
+        fn default() -> Self {
+            Player {
+                name: ("".into()),
+                hunger: (100),
+                time: (100),
+                health: (100),
+                item: (None),
+            }
+        }
+    }
     impl Player {
         pub fn test(&mut self) {
             println!("{}", self.hunger)
@@ -29,13 +41,6 @@ pub mod player {
         }
         pub fn updateTime(&mut self, incrementer: u8) {
             self.time -= incrementer;
-        }
-
-        pub fn printStats(self) {
-            println!(
-                "{} has {}health,{} hunger, and {} hours remaining",
-                self.name, self.health, self.hunger, self.time,
-            );
         }
     }
 }

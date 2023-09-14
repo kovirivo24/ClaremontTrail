@@ -1,7 +1,7 @@
 // extern crate rand;
 // use rand::{thread_rng, Rng};
 
-pub mod item {
+// pub mod item {
     pub struct item {
         name: String,
         time_mult: f32,    // for skateboard
@@ -9,18 +9,18 @@ pub mod item {
         health_effect: i8, // e.g. someone poisoined ur snack :(
     }
 
-    impl Default for item {
-        fn default() -> item {
-            item {
-                name: "Untitleditem".into(),
-                time_mult: 1.0,   // for skateboard
-                hunger_effect: 0, // e.g. snack
-                health_effect: 0, // e.g. someone poisoined ur snack :(
-            }
-        }
-    }
+    // impl Default for item {
+    //     fn default() -> item {
+    //         item {
+    //             name: "Untitleditem".into(),
+    //             time_mult: 1.0,   // for skateboard
+    //             hunger_effect: 0, // e.g. snack
+    //             health_effect: 0, // e.g. someone poisoined ur snack :(
+    //         }
+    //     }
+    // }
 
-    impl item {
+    // impl item {
         pub fn skateboard() -> item {
             item {
                 name: "Skateboard".into(),
@@ -47,5 +47,5 @@ pub mod item {
                 health_effect: healthEffect,
             }
         }
-    }
-}
+    // }
+// }

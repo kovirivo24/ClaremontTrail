@@ -3,16 +3,19 @@
 #![allow(dead_code, unused_variables)] // Attribute to hide warnings for unused code
 
 //Importing the module Item
-pub mod item;
 
-pub mod player {
+// pub mod player {
+    // use crate::item;
+
+    use crate::item::item;
+
 
     pub struct Player {
         pub name: String,
-        pub hunger: u8, // Biggest Number in a u8 is 255
-        pub time: u8,   // Maybe make this a float , look at later -agreed Kovit
-        pub health: u8,
-        pub item: crate::item,
+        pub hunger: u8, // set to 100
+        pub time: u8,   // max 100, decrement, cannot increase
+        pub health: u8, // set to 100
+        pub item: item,
     }
 
     impl Player {
@@ -38,4 +41,4 @@ pub mod player {
             );
         }
     }
-}
+// }

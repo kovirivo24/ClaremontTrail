@@ -1,7 +1,9 @@
-mod events;
 
-pub mod Room {
-    use super::events;
+
+use std::ops::Deref;
+
+// pub mod Room {
+use crate::events;
 
     pub enum School {
         HarveyMudd,
@@ -13,8 +15,8 @@ pub mod Room {
 
     pub struct Room {
         school: School,
-        megaEvent: Option<events::events::events>,
-        roomEvents: Option<Vec<events::events::events>>, // Max 1-3
+        megaEvent: Option<Vec<events::events>>,
+        // roomEvents: Option<Vec<(events::events, i32)>>, // Max 1-3 
     }
 
     impl Room {
@@ -22,7 +24,7 @@ pub mod Room {
             Room {
                 school: (School::HarveyMudd),
                 megaEvent: (None),
-                roomEvents: (None),
+                // roomEvents: (None), 
             }
         }
 
@@ -31,12 +33,24 @@ pub mod Room {
             Room {
                 school: (School::HarveyMudd),
                 megaEvent: (None),
-                roomEvents: (Some(events::events::createevents())),
+                // roomEvents: (Some(events::createevents())),
+            }
+        }
+
+        pub fn addMegaEvent(&mut self, mut event: Vec<events::events>) {
+            let mut curEvent = self.megaEvent.clone();
+            if curEvent.is_none() {
+                curEvent = Some(event.to_vec());
+                self.megaEvent = curEvent
+            } else {
+                let mut eventlist = curEvent.unwrap(); // just dont worry about trhis its 1 am and im trying to make it work
+                eventlist.append(&mut event);
+                self.megaEvent = Some(eventlist)
             }
         }
         //This function is just for testing and displaying an event name that the room has
         pub fn display(self) {
-            println!("{}", self.roomEvents.unwrap()[0].getName());
+            println!("TEST NAME{}", self.megaEvent.unwrap()[1].clone().getName());
         }
     }
-}
+// }

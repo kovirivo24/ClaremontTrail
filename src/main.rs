@@ -2,7 +2,10 @@
 
 // mod events;
 mod player; // iimporting the player module
-mod room; // importing the room module
+mod room;
+use std::clone;
+
+// importing the room module
 use player::item::item::item; // since player imports item, we don't have to re-import it but jsut "use" it
 use player::player::Player;
 
@@ -34,20 +37,17 @@ fn statAdjuster(p: &mut Player, e: &events) {
     p.time += e.time;
 }
 
+fn printEvents(mega: &Vec<events>) {
+    let mut counter = 0;
+    for i in mega {
+        println!("({}): {}", counter, i.name);
+        counter += 1;
+    }
+}
+
+fn eventSelector(es: &Vec<events>, choice: u8) {}
+
 fn main() {
-    let skateboard: item = item::skateboard(); //Created a skateboard item
-    let mut Cable = Player {
-        // Player Object
-        name: "Caleb".into(),
-        hunger: 100,
-        time: 100,
-        health: 100,
-        item: Some(skateboard),
-    };
-
-    // let mut testRoom: Room = Room::HarveyMudd(); // Created a room object
-    // testRoom.display(); // This should print running in the console upon running, dont mind the 16 warnings LMAO
-
     let mut theGame: GameState = GameState {
         currentSchool: (School::HarveyMudd),
         schoolRoom: (0),
@@ -85,20 +85,45 @@ fn main() {
         player.item.unwrap().name
     );
 
-    let schools = vec![Room::StartingRoom(), Room::Scripps()]; // This is going to be the vector that holds all the rooms
+    let schools = vec![Room::StartingRoom(), Room::StartingRoom()]; // This is going to be the vector that holds all the rooms
     let e = events::StarterEvent(); //Testing variables lol
-    e.printEvents();
+                                    // printEvents(&e.events.unwrap());
 
     let mut schoolCounter = 0;
     //This is the loop that will go through all the schools
     while schoolCounter < schools.len() {
+        let cloneVec = schools.clone();
         println!("-------------");
-        println!("Player {}", player.name);
+        println!("Player: {}", player.name);
         println!(
             "Health: {}, Hunger: {}, Time: {}",
             player.health, player.hunger, player.time
         );
         println!("-------------");
+
+        printEvents(&cloneVec[schoolCounter].megaEvent.events.clone().unwrap());
+
+        println!("Choose an option");
+        print!(">");
+
+        //Storing their choice
+        let mut choice = String::new();
+        io::stdout().flush().unwrap();
+        io::stdin().read_line(&mut choice).unwrap();
+        let choice = choice.trim();
+        let number: usize = choice.parse().unwrap();
+
+        println!(
+            "{} Your health was affected by {}, your hunger was affected by {}, your time was affected by {}",
+            &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].message, 
+            &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].health,
+            &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].hunger,
+            &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].time,
+        );
+
+        player.health += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].health;
+        player.hunger += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].hunger;
+        player.time += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].time;
 
         schoolCounter += 1;
     }

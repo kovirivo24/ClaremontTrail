@@ -3,10 +3,10 @@
 
 pub mod item {
     pub struct item {
-        name: String,
-        time_mult: f32,    // for skateboard
-        hunger_effect: i8, // e.g. snack
-        health_effect: i8, // e.g. someone poisoined ur snack :(
+        pub name: String,
+        pub time_mult: f32,    // for skateboard
+        pub hunger_effect: i8, // e.g. snack
+        pub health_effect: i8, // e.g. someone poisoined ur snack :(
     }
 
     impl Default for item {

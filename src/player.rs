@@ -1,13 +1,13 @@
-// use crate::item;
+// use crate::Item;
 // //Player
 #![allow(dead_code, unused_variables)] // Attribute to hide warnings for unused code
 
 //Importing the module Item
 
 // pub mod player {
-    // use crate::item;
+    // use crate::Item;
 
-    use crate::item::item;
+    use crate::item::Item;
 
 
     #[derive(Clone)]
@@ -16,7 +16,7 @@
         pub hunger: i16, // Biggest Number in a u8 is 255
         pub time: i16,   // Maybe make this a float , look at later -agreed Kovit
         pub health: i16,
-        pub item: Option<item>,
+        pub item: Option<Item>,
     }
 
     impl Default for Player {
@@ -35,7 +35,7 @@
             println!("{}", self.hunger)
         }
 
-        pub fn updateHealth(&mut self, incrementer: i16) {
+        pub fn update_health(&mut self, incrementer: i16) {
             self.health -= incrementer;
             if self.health > 100 {
                 self.health = 100;
@@ -44,7 +44,7 @@
                 self.health = 0;
             }
         }
-        pub fn updateHunger(&mut self, incrementer: i16) {
+        pub fn update_hunger(&mut self, incrementer: i16) {
             self.hunger -= incrementer;
             if self.hunger > 100 {
                 self.hunger = 100;
@@ -53,7 +53,7 @@
                 self.hunger = 0;
             }
         }
-        pub fn updateTime(&mut self, incrementer: i16) {
+        pub fn update_time(&mut self, incrementer: i16) {
             self.time -= incrementer;
         }
     }

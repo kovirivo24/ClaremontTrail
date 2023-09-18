@@ -13,9 +13,9 @@
     #[derive(Clone)]
     pub struct Player {
         pub name: String,
-        pub hunger: i8, // Biggest Number in a u8 is 255
-        pub time: i8,   // Maybe make this a float , look at later -agreed Kovit
-        pub health: i8,
+        pub hunger: i16, // Biggest Number in a u8 is 255
+        pub time: i16,   // Maybe make this a float , look at later -agreed Kovit
+        pub health: i16,
         pub item: Option<item>,
     }
 
@@ -35,14 +35,25 @@
             println!("{}", self.hunger)
         }
 
-        //Idk what to fuckin call this variable tbh
-        pub fn updateHealth(&mut self, incrementer: i8) {
+        pub fn updateHealth(&mut self, incrementer: i16) {
             self.health -= incrementer;
+            if self.health > 100 {
+                self.health = 100;
+            }
+            if self.health < 0 {
+                self.health = 0;
+            }
         }
-        pub fn updateHunger(&mut self, incrementer: i8) {
+        pub fn updateHunger(&mut self, incrementer: i16) {
             self.hunger -= incrementer;
+            if self.hunger > 100 {
+                self.hunger = 100;
+            }
+            if self.hunger < 0 {
+                self.hunger = 0;
+            }
         }
-        pub fn updateTime(&mut self, incrementer: i8) {
+        pub fn updateTime(&mut self, incrementer: i16) {
             self.time -= incrementer;
         }
     }

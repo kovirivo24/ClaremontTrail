@@ -10,9 +10,9 @@
         megaEvent: bool,
         pub events: Vec<events>,
         chance: u8,                  // make this a float, or choose arbitary max
-        time: i8,
-        health: i8,
-        hunger: i8,
+        time: i16,
+        health: i16,
+        hunger: i16,
     }
 
     // implements default values for each events -> let p = events { name: "Lunch", ..Default::default() };
@@ -87,40 +87,44 @@
             (self.chance)
         }
 
-        pub fn getTime(&self) -> i8 {
+        pub fn getTime(&self) -> i16 {
             (self.time)
         }
 
-        pub fn getHealth(&self) -> i8 {
+        pub fn getHealth(&self) -> i16 {
             (self.health)
         }
-        pub fn getHunger(&self) -> i8 {
+        pub fn getHunger(&self) -> i16 {
             (self.hunger)
         }
 
-        // pub fn randEvent(&self) -> i32 {
-        //     if self.events.is_some() {
+        pub fn randEvent(&self) -> i32 {
+            if !self.events.is_empty() {
 
-        //         let choices = self.events.clone().unwrap();
-        //         let mut weights = Vec::new();
-        //         let mut total_weight = 0;
-        //         for cur_event in choices {
-        //             weights.push(cur_event.chance as u32);
-        //             total_weight += cur_event.chance as u32;
-        //         }
-        //         let builder = WalkerTableBuilder::new(&weights);
-        //         let wa_table = builder.build();
+                if self.events.len() == 1 {
+                    return 0
+                }
 
-        //         for i in (0..total_weight).map(|_| wa_table.next()) {
-        //             total_weight = i as u32;
-        //         }
+                let choices = self.events.clone();
+                let mut weights = Vec::new();
+                let mut total_weight = 0;
+                for cur_event in choices {
+                    weights.push(cur_event.chance as u32);
+                    total_weight += cur_event.chance as u32;
+                }
+                let builder = WalkerTableBuilder::new(&weights);
+                let wa_table = builder.build();
 
-        //         return total_weight as i32
+                for i in (0..total_weight).map(|_| wa_table.next()) {
+                    total_weight = i as u32;
+                }
+
+                return total_weight as i32
                 
-        //     } else {
-        //         return -1
-        //     }
-        // }
+            } else {
+                return -1
+            }
+        }
     }
 
     // fn swap_vec(vec: &mut Vec<(events, i32)>, eventID: i32, variant: events) {
@@ -130,6 +134,7 @@
     //         *item = (variant, eventID); // overwrite with real value
     //     }
     // }
+
     // going to have to restructure a lot of this
     pub fn createevents() -> Vec<events> {
         //For some reason the above code had an issue with creating two variables then putting it into a vector ??, so i  just took one and put it inside the vector for testing purposses.
@@ -150,28 +155,40 @@
                 name: "RunIntoStairs".into(),
                 message: "You just ran into a set of stairs. Ouch".into(),
                 megaEvent: false,
-                health: 2,
+                health: 10,
+                hunger: 10,
+                time: 9,
+                chance: 8,
                 ..Default::default()
             }),
             (events {
                 name: "RunIntoFootballPlayers".into(),
                 message: "You just ran into football players. Ouch".into(),
                 megaEvent: false,
-                health: 5,
+                chance: 4,
+                health: 18,
+                hunger: 10,
+                time: 9,
                 ..Default::default()
             }),
             (events {
                 name: "RunIntoCar".into(),
                 message: "You just ran into a car. Watch out".into(),
                 megaEvent: false,
-                health: 8,
+                chance: 2,
+                health: 25,
+                hunger: 10,
+                time: 9,
                 ..Default::default()
             }),
             (events {
                 name: "RunIntoCactus".into(),
                 message: "You just ran into a cactus. Be careful".into(),
                 megaEvent: false,
-                health: 7,
+                chance: 6,
+                health: 15,
+                hunger: 10,
+                time: 9,
                 ..Default::default()
             }),
             (events {
@@ -184,41 +201,43 @@
                 name: "CrowdedLunch".into(),
                 message: "The lunch is out the door. Literally. You lose time.".into(),
                 chance: 7,
-                time: 15,
+                time: 25,
                 health: -20,
-                hunger: -10,
+                hunger: -20,
                 ..Default::default()
             }),
             (events {
                 name: "FoodPoisoning".into(),
                 message: "The food you ate gave you food poisoning. You lose health and time.".into(),
                 chance: 1,
-                time: 2,
-                health: 5,
+                time: 20,
+                health: 25,
                 hunger: -10,
                 ..Default::default()
             }),
             (events {
                 name: "GreatLunch".into(),
                 message: "The line was not too long. Your hunger is satisfied".into(),
-                time: 5,
+                time: 10,
                 chance: 4,
                 health: -20,
-                hunger: -20,
+                hunger: -25,
                 ..Default::default()
             }),
+            //10
             (events {
                 name: "EnterFrary".into(),
-                message: "You have Entered Frary".into(),
+                message: "Enter Frary and get some cafeteria food. Delicious!".into(),
                 chance: 0,
                 time: 0,
                 health: 0,
                 hunger: 0,
                 ..Default::default()
             }),
+            //11
             (events {
                 name: "SkipFrary".into(),
-                message: "You didn't go for lunch".into(),
+                message: "Skip the potentially long lunch".into(),
                 chance: 0,
                 time: 0,
                 health: 0,
@@ -227,22 +246,23 @@
             }),
             (events {
                 name: "ContinueToRun".into(),
-                message: "Keep running".into(),
+                message: "Run!".into(),
                 chance: 0,
-                time: 0,
+                time: -17,
                 health: 0,
                 hunger: 0,
                 ..Default::default()
             }),
             (events {
                 name: "ContinueToSkateboard".into(),
-                message: "Keep skateboarding".into(),
+                message: "Use skateboard!".into(),
                 chance: 0,
-                time: 0,
+                time: -10,
                 health: 0,
                 hunger: 0,
                 ..Default::default()
             }),
+            //14
             (events {
                 name: "TSwift".into(),
                 message: "You run into an angry Taylor Swift".into(),
@@ -272,21 +292,21 @@
                 ..Default::default()
             }),
             (events {
-                name: "RunAwayTSwift".into(),
+                name: "SuccessRunAwayTSwift".into(),
                 message: "You successfully run away".into(),
                 chance: 3,
-                time: -5,
-                health: -5,
-                hunger: -5,
+                time: 5,
+                health: 5,
+                hunger: 5,
                 ..Default::default()
             }),
             (events {
-                name: "RunAwayTSwift".into(),
+                name: "CarbonFootPrint".into(),
                 message: "She uses her private plane to catch up to you. Her extra carbon footprint effects you immensely.".into(),
                 chance: 2,
-                time: -10,
-                health: -25,
-                hunger: -5,
+                time: 15,
+                health: 25,
+                hunger: 5,
                 ..Default::default()
             }),
             (events {
@@ -294,8 +314,8 @@
                 message: "She loves your singing. You walk together, time becomes a Blank Space.".into(),
                 chance: 3,
                 time: 0,
-                health: 0,
-                hunger: -5,
+                health: 8,
+                hunger: 8,
                 ..Default::default()
             }),
             (events {
@@ -303,17 +323,55 @@
                 message: "She hates your singing. She starts singing a bad song about you. Her fans boo you.".into(),
                 chance: 8,
                 time: 20,
-                health: -10,
-                hunger: -1,
+                health: 10,
+                hunger: 5,
+                ..Default::default()
+            }),
+            (events {
+                name: "NoDamage".into(),
+                message: "You don't hit anyone. Great job!".into(),
+                chance: 3,
+                time: 5,
+                health: 5,
+                hunger: 5,
+                ..Default::default()
+            }),
+            // 22
+            (events {
+                name: "HungerFromFrary".into(),
+                message: "You don't hit anyone. Great job!".into(),
+                chance: 3,
+                time: 5,
+                health: 15,
+                hunger: 30,
                 ..Default::default()
             }),
         ];
     
-    let mut runningOptions = vec![eventsVec[12].clone()];
-    let mut runningEvents = vec![eventsVec[2].clone(),eventsVec[3].clone(),eventsVec[4].clone()];
+    let mut runningOptions = vec![eventsVec[12].clone(), eventsVec[13].clone()];
+    let mut runningEvents = vec![eventsVec[2].clone(),eventsVec[3].clone(),eventsVec[4].clone(), eventsVec[find_event_index(&eventsVec, "NoDamage") as usize].clone()];
     
+    let mut taylorOptions = vec![eventsVec[15].clone(), eventsVec[16].clone()];
+    let mut taylorCalm = vec![eventsVec[19].clone(), eventsVec[20].clone()];
+    let mut taylorRun = vec![eventsVec[17].clone(), eventsVec[18].clone()];
+
+    let mut fraryOptions = vec![eventsVec[10].clone(), eventsVec[11].clone()];
+    let mut inFrary = vec![eventsVec[7].clone(), eventsVec[8].clone(), eventsVec[9].clone()];
+    let mut leaveFrary = vec![eventsVec[22].clone()];
+        
+    
+
     add_events_to_event(&mut eventsVec, "Running", &runningOptions);
     add_events_to_event(&mut eventsVec, "ContinueToRun", &runningEvents);
+    add_events_to_event(&mut eventsVec, "ContinueToSkateboard", &runningEvents);
+
+    add_events_to_event(&mut eventsVec, "TSwift", &taylorOptions);
+    add_events_to_event(&mut eventsVec, "CalmTaylor", &taylorCalm);
+    add_events_to_event(&mut eventsVec, "RunAwayTSwift", &taylorRun);
+
+    add_events_to_event(&mut eventsVec, "LunchAtFrary", &fraryOptions);
+    add_events_to_event(&mut eventsVec, "EnterFrary", &inFrary);
+    add_events_to_event(&mut eventsVec, "SkipFrary", &taylorRun);
 
         return eventsVec;
     }

@@ -17,7 +17,7 @@ use crate::events;
     #[derive(Clone)]
     pub struct Room {
         school: School,
-        pub megaEvent: Option<Vec<events::events>>,
+        pub megaEvent: Vec<events::events>,
         // roomEvents: Option<Vec<(events::events, i32)>>, // Max 1-3 
     }
 
@@ -26,29 +26,54 @@ use crate::events;
         pub fn StartingRoom() -> Room {
             Room {
                 school: (School::HarveyMudd),
-                megaEvent: Some(vec![events::events::StarterEvent()]),
+                megaEvent: vec![events::events::StarterEvent()],
             }
         }
-
-        // pub fn HarveyMudd() -> Room {
-        //     Room {
-        //         school: (School::HarveyMudd),
-        //         megaEvent: (None),
-        //        //  // roomEvents: (Some(events::events::createevents())), 
-        //     }
-        // }
 
         //The plan is to hopefully initialize a certain school with specific events that are generated when it's created.  i think we will have to tweek this a bit for the our frequency idea ??
         pub fn HarveyMudd() -> Room {
             Room {
                 school: (School::HarveyMudd),
-                megaEvent: (None),
+                megaEvent: Vec::new(),
+                // roomEvents: (Some(events::events::createevents())),
+            }
+        }
+
+        pub fn Scripps() -> Room {
+            Room {
+                school: (School::Scripps),
+                megaEvent: Vec::new(),
+                // roomEvents: (Some(events::events::createevents())),
+            }
+        }
+
+        pub fn CMC() -> Room {
+            Room {
+                school: (School::Cmc),
+                megaEvent: Vec::new(),
+                // roomEvents: (Some(events::events::createevents())),
+            }
+        }
+
+        pub fn Pomona() -> Room {
+            Room {
+                school: (School::Pomona),
+                megaEvent: Vec::new(),
                 // roomEvents: (Some(events::events::createevents())),
             }
         }
         //This function is just for testing and displaying an event name that the room has
         pub fn display(self) {
             // println!("{}", self.roomEvents.unwrap()[0].getName());
+        }
+
+        pub fn add_megaevent(&mut self, mega_events: Vec<events::events>) {
+            // if let Some(existing_events) = &mut self.events {
+            //     existing_events.extend(new_events);
+            // } else {
+            //     self.events = Some(new_events);
+            // }
+            self.megaEvent.extend(mega_events);
         }
     }
 // }

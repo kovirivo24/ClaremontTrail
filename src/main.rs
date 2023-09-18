@@ -32,12 +32,33 @@ fn statAdjuster(p: &mut Player, e: &events::events) {
     p.time += e.getTime();
 }
 
+fn print_mega_options(mega_event: events::events) {
+    if !mega_event.get_events().is_empty(){
+        let mut options = mega_event.get_events().clone();
+        let mut counter = 0; 
+        for option in options.iter_mut(){
+            counter += 1;
+            println!("({}): {}", counter, option.getMessage());
+        }
+    }
+}
 fn printEvents(mega: &Vec<events::events>) {
     let mut counter = 0;
     for i in mega {
         println!("({}): {}", counter, i.getName());
         counter += 1;
     }
+}
+
+fn print_user_info(player: Player) {
+    println!("-------------");
+    println!("Player: {}", player.name);
+    println!(
+        "Health: {}, Hunger: {}, Time: {}",
+        player.health, player.hunger, player.time
+    );
+    println!("-------------");
+
 }
 
 // fn eventSelector(es: &Vec<events::events {
@@ -55,7 +76,7 @@ fn main() {
         item: Some(skateboard),
     };
 
-    let mut testRoom: Room = Room::HarveyMudd(); // Created a room object
+    // let mut testRoom: Room = Room::HarveyMudd(); // Created a room object
     let mut mudd_megaevents = vec![eventList[0].clone(), eventList[6].clone()];
     // testRoom.addMegaEvent(mudd_megaevents);
     // testRoom.display(); // This should print running in the console upon running, dont mind the 16 warnings LMAO
@@ -108,7 +129,7 @@ fn main() {
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).unwrap();
 
-    if input.to_lowercase() == "skateboard" {
+    if input.to_lowercase()== "skateboard" {
         player.item = Some(item::skateboard());
     } else {
         player.item = Some(item::skateboard());
@@ -119,24 +140,42 @@ fn main() {
         player.item.unwrap().name
     );
 
-    let schools = vec![Room::StartingRoom(), Room::StartingRoom()]; // This is going to be the vector that holds all the rooms
-    let e = events::events::StarterEvent(); //Testing variables lol
-                                    // printEvents(&e.events.unwrap());
+    let mut mudd_room = Room::HarveyMudd();
+    let mut pomona_room = Room::Pomona();
+
+    // run three times
+    let mudd_mega = vec![eventList[0].clone(), eventList[events::find_event_index(&eventList, "TSwift") as usize].clone(),eventList[0].clone(), eventList[0].clone()];
+    mudd_room.add_megaevent(mudd_mega);
+
+    let schools = vec![mudd_room, pomona_room]; // This is going to be the vector that holds all the rooms
 
     let mut schoolCounter = 0;
     //This is the loop that will go through all the schools
-    while schoolCounter < schools.len() {
-        let cloneVec = schools.clone();
-        println!("-------------");
-        println!("Player: {}", player.name);
-        println!(
-            "Health: {}, Hunger: {}, Time: {}",
-            player.health, player.hunger, player.time
-        );
-        println!("-------------");
+    // while schoolCounter < schools.len() {
+    for school in schools {
+        // let cloneVec = schools.clone();
+        // print_user_info(player.clone());
 
-        printEvents(&cloneVec[schoolCounter].megaEvent.unwrap()[0].events.clone().unwrap());
 
+        let mega_event_list = school.megaEvent;
+        for mega_event in mega_event_list {
+            println!("{}", mega_event.getMessage());
+            print_mega_options(mega_event);
+
+            println!("Choose an option");
+        print!(">");
+
+        //Storing their choice
+        let mut choice = String::new();
+        io::stdout().flush().unwrap();
+        io::stdin().read_line(&mut choice).unwrap();
+        let choice = choice.trim();
+        let number: usize = choice.parse().unwrap();
+        }
+
+
+        // printEvents(&cloneVec[schoolCounter].megaEvent.unwrap()[0].events.clone().unwrap());
+        /* 
         println!("Choose an option");
         print!(">");
 
@@ -159,7 +198,9 @@ fn main() {
         player.hunger += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].hunger;
         player.time += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].time;
 
-        schoolCounter += 1;
+        // schoolCounter += 1;
+
+        */
     } 
 }
 

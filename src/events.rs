@@ -227,7 +227,7 @@
             }),
             (events {
                 name: "ContinueToRun".into(),
-                message: "You keep running".into(),
+                message: "Keep running".into(),
                 chance: 0,
                 time: 0,
                 health: 0,
@@ -236,11 +236,75 @@
             }),
             (events {
                 name: "ContinueToSkateboard".into(),
-                message: "You keep skateboarding".into(),
+                message: "Keep skateboarding".into(),
                 chance: 0,
                 time: 0,
                 health: 0,
                 hunger: 0,
+                ..Default::default()
+            }),
+            (events {
+                name: "TSwift".into(),
+                message: "You run into an angry Taylor Swift".into(),
+                megaEvent: true,
+                chance: 0,
+                time: 0,
+                health: 0,
+                hunger: 0,
+                ..Default::default()
+            }),
+            (events {
+                name: "RunAwayTSwift".into(),
+                message: "Run away!".into(),
+                chance: 0,
+                time: 0,
+                health: 0,
+                hunger: 0,
+                ..Default::default()
+            }),
+            (events {
+                name: "CalmTaylor".into(),
+                message: "Try to calm her down by singing your favorite Taylor Swift song".into(),
+                chance: 0,
+                time: 0,
+                health: 0,
+                hunger: 0,
+                ..Default::default()
+            }),
+            (events {
+                name: "RunAwayTSwift".into(),
+                message: "You successfully run away".into(),
+                chance: 3,
+                time: -5,
+                health: -5,
+                hunger: -5,
+                ..Default::default()
+            }),
+            (events {
+                name: "RunAwayTSwift".into(),
+                message: "She uses her private plane to catch up to you. Her extra carbon footprint effects you immensely.".into(),
+                chance: 2,
+                time: -10,
+                health: -25,
+                hunger: -5,
+                ..Default::default()
+            }),
+            (events {
+                name: "LoveSing".into(),
+                message: "She loves your singing. You walk together, time becomes a Blank Space.".into(),
+                chance: 3,
+                time: 0,
+                health: 0,
+                hunger: -5,
+                ..Default::default()
+            }),
+            (events {
+                name: "HateSing".into(),
+                message: "She hates your singing. She starts singing a bad song about you. Her fans boo you.".into(),
+                chance: 8,
+                time: 20,
+                health: -10,
+                hunger: -1,
                 ..Default::default()
             }),
         ];

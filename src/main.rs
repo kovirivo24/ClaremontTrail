@@ -56,20 +56,27 @@ fn main() {
     };
 
     let mut testRoom: Room = Room::HarveyMudd(); // Created a room object
-    let mut mudd_megaevents = vec![eventList[0].0.clone(), eventList[6].0.clone()];
+    let mut mudd_megaevents = vec![eventList[0].clone(), eventList[6].clone()];
     // testRoom.addMegaEvent(mudd_megaevents);
     // testRoom.display(); // This should print running in the console upon running, dont mind the 16 warnings LMAO
 
     for mega in mudd_megaevents.iter_mut() {
-        if mega.getEvents().is_none(){
-            let mut cur_message = mega.getMessage();
-            let mut options = mega.getEvents().clone().unwrap();
+        let cur_message = mega.getMessage();
+        println!("message of mega event: {} name of event: {}", cur_message, mega.getName() );
+        if !mega.get_events().is_empty(){
+            let mut options = mega.get_events().clone();
             let mut opt_num = 0; 
             for option in options.iter_mut(){
                 opt_num += 1;
-                println!("{}: {}", opt_num, option.getMessage())
+                println!("{}: Mega Option {}", opt_num, option.getMessage());
+                let option_index = events::find_event_index(&eventList, option.getName());
+                println!("optionindex {}", option_index);
+                let option_events = eventList.get(option_index as usize).clone().unwrap().get_events();
+                for option_event in option_events {
+                    println!("Option event {}", option_event.getMessage());
+                }
+
             }
-            println!("{}{}", cur_message, mega.getName() )
         }
     }
 
@@ -128,7 +135,7 @@ fn main() {
         );
         println!("-------------");
 
-        printEvents(&cloneVec[schoolCounter].megaEvent.events.clone().unwrap());
+        printEvents(&cloneVec[schoolCounter].megaEvent.unwrap()[0].events.clone().unwrap());
 
         println!("Choose an option");
         print!(">");
@@ -153,7 +160,7 @@ fn main() {
         player.time += &cloneVec[schoolCounter].megaEvent.events.clone().unwrap()[number].time;
 
         schoolCounter += 1;
-    }
+    } 
 }
 
 

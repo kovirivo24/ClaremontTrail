@@ -8,7 +8,7 @@
         name: String,
         message: String,
         megaEvent: bool,
-        events: Option<Vec<events>>,
+        pub events: Vec<events>,
         chance: u8,                  // make this a float, or choose arbitary max
         time: i8,
         health: i8,
@@ -22,7 +22,7 @@
                 name: "Untitledevents".into(),
                 message: "EmptyMessage".into(),
                 megaEvent: false,
-                events: None,
+                events: Vec::new(),
                 chance: 1,    // lets set a default attributes
                 time: 5,
                 health: 0,
@@ -51,7 +51,7 @@
                 name: "Starting Room".into(),
                 message: "Your objective is to make it to your class".into(),
                 megaEvent: false,
-                events: (None),
+                events: Vec::new(),
                 chance: 0,
                 time: 0,
                 health: 0,
@@ -70,20 +70,17 @@
 
         pub fn getMegaEvent(&self) {}
 
-        pub fn getEvents(&self) -> &Option<Vec<events>>{
+        pub fn get_events(&self) -> &Vec<events> {
             &self.events
         }
 
-        pub fn addEvents(&mut self, mut event: Vec<events>) {
-            let mut curEvent = self.events.clone();
-            if curEvent.is_none() {
-                curEvent = Some(event.to_vec());
-                self.events = curEvent
-            } else {
-                let mut eventlist = curEvent.unwrap(); // just dont worry about trhis its 1 am and im trying to make it work
-                eventlist.append(&mut event);
-                self.events = Some(eventlist)
-            }
+        fn add_events(&mut self, new_events: Vec<events>) {
+            // if let Some(existing_events) = &mut self.events {
+            //     existing_events.extend(new_events);
+            // } else {
+            //     self.events = Some(new_events);
+            // }
+            self.events.extend(new_events);
         }
 
         pub fn getChance(&self) -> u8 {
@@ -101,40 +98,40 @@
             (self.hunger)
         }
 
-        pub fn randEvent(&self) -> i32 {
-            if self.events.is_some() {
+        // pub fn randEvent(&self) -> i32 {
+        //     if self.events.is_some() {
 
-                let choices = self.events.clone().unwrap();
-                let mut weights = Vec::new();
-                let mut total_weight = 0;
-                for cur_event in choices {
-                    weights.push(cur_event.chance as u32);
-                    total_weight += cur_event.chance as u32;
-                }
-                let builder = WalkerTableBuilder::new(&weights);
-                let wa_table = builder.build();
+        //         let choices = self.events.clone().unwrap();
+        //         let mut weights = Vec::new();
+        //         let mut total_weight = 0;
+        //         for cur_event in choices {
+        //             weights.push(cur_event.chance as u32);
+        //             total_weight += cur_event.chance as u32;
+        //         }
+        //         let builder = WalkerTableBuilder::new(&weights);
+        //         let wa_table = builder.build();
 
-                for i in (0..total_weight).map(|_| wa_table.next()) {
-                    total_weight = i as u32;
-                }
+        //         for i in (0..total_weight).map(|_| wa_table.next()) {
+        //             total_weight = i as u32;
+        //         }
 
-                return total_weight as i32
+        //         return total_weight as i32
                 
-            } else {
-                return -1
-            }
-        }
+        //     } else {
+        //         return -1
+        //     }
+        // }
     }
 
-    fn swap_vec(vec: &mut Vec<(events, i32)>, eventID: i32, variant: events) {
-        if let Some(item) = vec.iter_mut().find(|item| item.1 == eventID) {
-            let mut temp = (events::StarterEvent(), eventID); // create placeholder value
-            std::mem::swap(item, &mut temp); // swap the placeholder in
-            *item = (variant, eventID); // overwrite with real value
-        }
-    }
+    // fn swap_vec(vec: &mut Vec<(events, i32)>, eventID: i32, variant: events) {
+    //     if let Some(item) = vec.iter_mut().find(|item| item.1 == eventID) {
+    //         let mut temp = (events::StarterEvent(), eventID); // create placeholder value
+    //         std::mem::swap(item, &mut temp); // swap the placeholder in
+    //         *item = (variant, eventID); // overwrite with real value
+    //     }
+    // }
     // going to have to restructure a lot of this
-    pub fn createevents() -> Vec<(events, i32)> {
+    pub fn createevents() -> Vec<events> {
         //For some reason the above code had an issue with creating two variables then putting it into a vector ??, so i  just took one and put it inside the vector for testing purposses.
         let mut eventsVec = vec![
             (events {
@@ -142,47 +139,47 @@
                 message: "You run.".into(),
                 megaEvent: true,
                 ..Default::default()
-            }, 0),
+            }),
             (events {
                 name: "Skateboarding".into(),
                 message: "You skateboard.".into(),
                 megaEvent: true,
                 ..Default::default()
-            }, 1),
+            }),
             (events {
                 name: "RunIntoStairs".into(),
                 message: "You just ran into a set of stairs. Ouch".into(),
                 megaEvent: false,
                 health: 2,
                 ..Default::default()
-            }, 2),
+            }),
             (events {
                 name: "RunIntoFootballPlayers".into(),
                 message: "You just ran into football players. Ouch".into(),
                 megaEvent: false,
                 health: 5,
                 ..Default::default()
-            }, 3),
+            }),
             (events {
                 name: "RunIntoCar".into(),
                 message: "You just ran into a car. Watch out".into(),
                 megaEvent: false,
                 health: 8,
                 ..Default::default()
-            }, 4),
+            }),
             (events {
                 name: "RunIntoCactus".into(),
                 message: "You just ran into a cactus. Be careful".into(),
                 megaEvent: false,
                 health: 7,
                 ..Default::default()
-            }, 5),
+            }),
             (events {
                 name: "LunchAtFrary".into(),
                 message: "You are near Frary Dining Hall. Go in for lunch?".into(),
                 megaEvent: true,
                 ..Default::default()
-            }, 6),
+            }),
             (events {
                 name: "CrowdedLunch".into(),
                 message: "The lunch is out the door. Literally. You lose time.".into(),
@@ -191,7 +188,7 @@
                 health: -20,
                 hunger: -10,
                 ..Default::default()
-            }, 7),
+            }),
             (events {
                 name: "FoodPoisoning".into(),
                 message: "The food you ate gave you food poisoning. You lose health and time.".into(),
@@ -200,7 +197,7 @@
                 health: 5,
                 hunger: -10,
                 ..Default::default()
-            }, 8),
+            }),
             (events {
                 name: "GreatLunch".into(),
                 message: "The line was not too long. Your hunger is satisfied".into(),
@@ -209,7 +206,7 @@
                 health: -20,
                 hunger: -20,
                 ..Default::default()
-            }, 9),
+            }),
             (events {
                 name: "EnterFrary".into(),
                 message: "You have Entered Frary".into(),
@@ -218,7 +215,7 @@
                 health: 0,
                 hunger: 0,
                 ..Default::default()
-            }, 10),
+            }),
             (events {
                 name: "SkipFrary".into(),
                 message: "You didn't go for lunch".into(),
@@ -227,7 +224,7 @@
                 health: 0,
                 hunger: 0,
                 ..Default::default()
-            }, 11),
+            }),
             (events {
                 name: "ContinueToRun".into(),
                 message: "You keep running".into(),
@@ -236,7 +233,7 @@
                 health: 0,
                 hunger: 0,
                 ..Default::default()
-            }, 12),
+            }),
             (events {
                 name: "ContinueToSkateboard".into(),
                 message: "You keep skateboarding".into(),
@@ -245,54 +242,39 @@
                 health: 0,
                 hunger: 0,
                 ..Default::default()
-            }, 13),
+            }),
         ];
-        
-        let mut runningOptions = vec![eventsVec[12].0.clone()];
-        let mut runningEvents = vec![eventsVec[2].0.clone(),eventsVec[3].0.clone(),eventsVec[4].0.clone()];
-        let mut skateOptions = vec![eventsVec[13].0.clone()];
-        let mut fraryOptions = vec![eventsVec[10].0.clone(), eventsVec[11].0.clone()];
-        let mut enterFraryEvents = vec![eventsVec[7].0.clone(), eventsVec[8].0.clone(), eventsVec[9].0.clone()];
-        
-        let mut newRunningOptions = &eventsVec.clone()[0].0;
-        newRunningOptions.clone().addEvents(runningOptions.clone());
-        swap_vec(&mut eventsVec, 0, newRunningOptions.clone());
+    
+    let mut runningOptions = vec![eventsVec[12].clone()];
+    let mut runningEvents = vec![eventsVec[2].clone(),eventsVec[3].clone(),eventsVec[4].clone()];
+    
+    add_events_to_event(&mut eventsVec, "Running", &runningOptions);
+    add_events_to_event(&mut eventsVec, "ContinueToRun", &runningEvents);
 
-        let mut newRunningEvents = &eventsVec.clone()[12].0;
-        newRunningEvents.clone().addEvents(runningEvents);
-        swap_vec(&mut eventsVec, 12, newRunningEvents.clone());
-
-        let mut newSkatingOptions = &eventsVec.clone()[13].0;
-        newSkatingOptions.clone().addEvents(runningOptions.clone());
-        swap_vec(&mut eventsVec, 13, newSkatingOptions.clone());
-
-        let mut newFraryOptions = &eventsVec.clone()[13].0;
-        newFraryOptions.clone().addEvents(fraryOptions);
-        swap_vec(&mut eventsVec, 13, newFraryOptions.clone());
-
-        let mut newFraryEvents = &eventsVec.clone()[13].0;
-        newFraryEvents.clone().addEvents(enterFraryEvents);
-        swap_vec(&mut eventsVec, 13, newFraryEvents.clone());
-       
-
-        // eventsVec[6].0.addEvents( fraryOptions);
-        // eventsVec[10].0.addEvents( enterFraryEvents);
-
-        // let eventsVec = vec![events {
-        //     name: "Running".into(),
-        //     message: "You run.".into(),
-        //     mega_events: false,
-        //     ..Default::default()
-        // }];
-
-        // let mut eventsVec = Vec::new();
-        // eventsVec.push(events {
-        //     name: "Running".into(),
-        //     message: "You run.".into(),
-        //     megaEvent: false,
-        //     ..Default::default()
-        // });
         return eventsVec;
     }
+
+    fn add_events_to_event(events_vec: &mut Vec<events>, event_name: &str, events_to_add: &Vec<events>) {
+        // Find the index of the target event by name
+        if let Some(index) = events_vec.iter().position(|event| event.name == event_name) {
+            // Clone the target event
+            let mut cloned_target = events_vec[index].clone();
     
+            // Add the events from events_to_add to the cloned_target's events
+            cloned_target.add_events(events_to_add.clone());
+    
+            // Swap the modified cloned_target back into the events_vec
+            std::mem::swap(&mut events_vec[index], &mut cloned_target);
+        }
+    }
+
+    pub fn find_event_index(events_vec: &Vec<events>, event_name: &str) -> i8 {
+        // Find the index of the target event by name
+        if let Some(index) = events_vec.iter().position(|event| event.name == event_name) {
+            index as i8
+    
+        } else {
+            -1
+        }
+    }
 // 

@@ -17,7 +17,7 @@ use crate::events;
     #[derive(Clone)]
     pub struct Room {
         school: School,
-        megaEvent: Option<Vec<events::events>>,
+        pub megaEvent: Option<Vec<events::events>>,
         // roomEvents: Option<Vec<(events::events, i32)>>, // Max 1-3 
     }
 
